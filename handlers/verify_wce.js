@@ -4,10 +4,10 @@ const db = require('../helpers/db.js');
 
 async function handleVerifyWce(message, username, password) {
 
-    message.reply("**Your Credentials are not stored.**")
-    message.reply("**You can view our code here: https://github.com/Walchand-Linux-Users-Group/wlug-bot**")
+    message.reply("Your Credentials are not stored.")
+    message.reply("You can view our code here: https://github.com/Walchand-Linux-Users-Group/wlug-bot")
 
-	let response = await axios.post('https://wcemoodle-api.herokuapp.com:5000/verify/wce', { 'username': username, 'password': password }).catch(err => console.log(err));
+	let response = await axios.post('https://wcemoodle-api.herokuapp.com/verify/wce', { 'username': username, 'password': password }).catch(err => console.log(err));
 
 	response = response.data;
 
