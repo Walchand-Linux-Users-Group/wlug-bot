@@ -7,7 +7,6 @@ from flask import Flask, request
 app = Flask(__name__)
 
 @app.route('/verify/wce',methods = ['POST'])
-
 def login():
     try:
         params = json.loads(str(request.data.decode("utf-8")))
@@ -28,6 +27,3 @@ def login():
         return {'status':'OK', 'prn':prn, 'name':name}
     except Exception:
         return {'status':'ERROR'}
-
-if __name__ == '__main__':
-   app.run(debug = True)
