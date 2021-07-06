@@ -1,0 +1,28 @@
+{
+  "name": "wlug-bot",
+  "version": "1.0.0",
+  "description": "Bot for WLUG Server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Walchand-Linux-Users-Group/wlug-bot.git"
+  },
+  "author": "WLUG Main Board - 2021",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Walchand-Linux-Users-Group/wlug-bot/issues"
+  },
+  "homepage": "https://github.com/Walchand-Linux-Users-Group/wlug-bot#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "discord.js": "^12.5.3",
+    "mysql": "^2.18.1",
+    "util": "^0.12.4"
+  },
+  "devDependencies": {
+    "eslint": "^7.30.0"
+  }
+}
