@@ -8,10 +8,17 @@ const db = require('../helpers/db.js');
 
 async function handleVerifyWce(message, username, password) {
 
-	const entries = await db.query('SELECT * FROM `wce-verified` WHERE discordID = \'' + message.author.id + '\'');
+	var entries = await db.query('SELECT * FROM `wce-verified` WHERE discordID = \'' + message.author.id + '\'');
 
 	if (entries.length != 0) {
 		message.reply('**You are already verified!**');
+		return;
+	}
+
+	entries = await db.query('SELECT * FROM `wce-verified` WHERE prn = \'' + username + '\'');
+
+	if (entries.length != 0) {
+		message.reply('**Dublicate Accounts Not allowed!**');
 		return;
 	}
 
@@ -28,22 +35,21 @@ async function handleVerifyWce(message, username, password) {
 			}
 			else {
 
-				const soup = new JSSoup(body);
+				try {
+					const soup = new JSSoup(body);
 
-				const details = soup.findAll('span', { 'class': 'usertext' })[0].text.split(' ');
-				response = {
-					'status': 'OK', 'prn': details[3], 'name': details.slice(4, details.length).join(' '),
-				};
+					const details = soup.findAll('span', { 'class': 'usertext' })[0].text.split(' ');
+
+					response = {
+						'status': 'OK', 'prn': details[3], 'name': details.slice(4, details.length).join(' '),
+					};
+				}
+				catch (err) {
+					response = { "status": "ERROR" }
+				}
 			}
 
 			if (response.status === 'OK') {
-
-				const entries = await db.query('SELECT * FROM `wce-verified` WHERE prn = \'' + response['prn'] + '\'');
-
-				if (entries.length != 0) {
-					message.reply('**Dublicate Accounts Not allowed!**');
-					return;
-				}
 
 				await db.query('INSERT INTO `wce-verified` (discordID,prn,name) VALUES(\'' + message.author.id + '\',\'' + response['prn'] + '\',\'' + response['name'] + '\')');
 
