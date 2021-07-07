@@ -46,7 +46,7 @@ discordClient.client.on('message', function (message) {
 
 	switch (command) {
 		case 'verified':
-			handleVerifiedWce(message, wceVerificationChannel, wceRoleID);
+			handleVerifiedWce(message, wceVerificationChannel, wceRoleID,args[1]);
 			break;
 		default:
 			message.reply('Incorrect Command');

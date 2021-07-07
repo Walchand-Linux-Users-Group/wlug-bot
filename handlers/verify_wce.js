@@ -25,8 +25,8 @@ async function handleVerifyWce(message, username, password) {
 	const loginUrl = 'http://112.133.242.241/moodle/login/index.php';
 	const formData = { 'username': username, 'password': password };
 
-	request(loginUrl, async function() {
-		request.post({ url: loginUrl, formData: formData, followAllRedirects: true }, async function(err, httpResponse, body) {
+	request(loginUrl, async function () {
+		request.post({ url: loginUrl, formData: formData, followAllRedirects: true }, async function (err, httpResponse, body) {
 
 			let response;
 
@@ -53,8 +53,12 @@ async function handleVerifyWce(message, username, password) {
 
 				await db.query('INSERT INTO `wce-verified` (discordID,prn,name) VALUES(\'' + message.author.id + '\',\'' + response['prn'] + '\',\'' + response['name'] + '\')');
 
+
+
 				const channel = await discordClient.client.channels.fetch('861202399351668746');
-				channel.send('!verified <@' + message.author.id + '>');
+				
+				var passout = parseInt(response['prn'].slice(0, 4)) + 4;
+				channel.send('!verified <@' + message.author.id + '> Batch-' + passout);
 
 				message.channel.send('✅ **Verification Successful!**');
 
