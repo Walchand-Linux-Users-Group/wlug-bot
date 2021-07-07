@@ -9,7 +9,7 @@ discordClient.client.on('ready', () => {
 	discordClient.client.user.setActivity('WLUG Server', { type: 'WATCHING' });
 });
 
-discordClient.client.on('message', function(message) {
+discordClient.client.on('message', function (message) {
 	if (!message.content.startsWith(config.prefix)) return;
 
 	const commandBody = message.content.slice(config.prefix.length);
@@ -18,16 +18,24 @@ discordClient.client.on('message', function(message) {
 
 	if (message.guild === null) {
 
-		if (command != 'verify' || args.length != 3) {
-			message.reply('Incorrect Command');
+		if (command != 'verify') {
+			message.reply('Incorrect Command! For help send **!verify help**');
 		}
 		else {
 			switch (args[0]) {
-			case 'wce':
-				handler.handleVerifyWce(message, args[1], args[2]);
-				break;
-			default:
-				message.reply('Incorrect Authentication Keyword!');
+				case 'wce':
+					if (args.length != 3) {
+						message.reply('Incorrect Command! For help send **!verify help**');
+					}
+					else {
+						handler.handleVerifyWce(message, args[1], args[2]);
+					}
+					break;
+				case 'help':
+					handler.handleVerifyWce(message, args[1], args[2]);
+					break;
+				default:
+					message.reply('Incorrect Authentication Keyword! For help send **!verify help**');
 			}
 		}
 		return;
@@ -36,12 +44,12 @@ discordClient.client.on('message', function(message) {
 	const wceVerificationChannel = '861202399351668746';
 	const wceRoleID = '858647843526279169';
 
-	switch(command) {
-	case 'verified':
-		handleVerifiedWce(message, wceVerificationChannel, wceRoleID);
-		break;
-	default:
-		message.reply('Incorrect Command');
+	switch (command) {
+		case 'verified':
+			handleVerifiedWce(message, wceVerificationChannel, wceRoleID);
+			break;
+		default:
+			message.reply('Incorrect Command');
 	}
 });
 
