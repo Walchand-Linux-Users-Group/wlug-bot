@@ -8,7 +8,7 @@ const db = require('../helpers/db.js');
 
 async function handleVerifyWce(message, username, password) {
 
-	var entries = await db.query('SELECT * FROM `wce-verified` WHERE discordID = \'' + message.author.id + '\'');
+	let entries = await db.query('SELECT * FROM `wce-verified` WHERE discordID = \'' + message.author.id + '\'');
 
 	if (entries.length != 0) {
 		message.reply('**You are already verified!**');
@@ -25,8 +25,8 @@ async function handleVerifyWce(message, username, password) {
 	const loginUrl = 'http://112.133.242.241/moodle/login/index.php';
 	const formData = { 'username': username, 'password': password };
 
-	request(loginUrl, async function () {
-		request.post({ url: loginUrl, formData: formData, followAllRedirects: true }, async function (err, httpResponse, body) {
+	request(loginUrl, async function() {
+		request.post({ url: loginUrl, formData: formData, followAllRedirects: true }, async function(err, httpResponse, body) {
 
 			let response;
 
@@ -45,7 +45,7 @@ async function handleVerifyWce(message, username, password) {
 					};
 				}
 				catch (err) {
-					response = { "status": "ERROR" }
+					response = { 'status': 'ERROR' };
 				}
 			}
 

@@ -32,7 +32,7 @@ discordClient.client.on('message', function (message) {
 					}
 					break;
 				case 'help':
-					handler.handleVerifyWce(message, args[1], args[2]);
+					handler.handleHelpVerify(message);
 					break;
 				default:
 					message.reply('Incorrect Authentication Keyword! For help send **!verify help**');
