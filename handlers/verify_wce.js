@@ -8,11 +8,18 @@ const db = require('../helpers/db.js');
 
 async function handleVerifyWce(message, username, password) {
 
+	const entries = await db.query('SELECT * FROM `wce-verified` WHERE discordID = \'' + message.author.id + '\'');
+
+	if (entries.length != 0) {
+		message.reply('**You are already verified!**');
+		return;
+	}
+
 	const loginUrl = 'http://112.133.242.241/moodle/login/index.php';
 	const formData = { 'username': username, 'password': password };
 
-	request(loginUrl, async function() {
-		request.post({ url: loginUrl, formData: formData, followAllRedirects: true }, async function(err, httpResponse, body) {
+	request(loginUrl, async function () {
+		request.post({ url: loginUrl, formData: formData, followAllRedirects: true }, async function (err, httpResponse, body) {
 
 			let response;
 
@@ -30,20 +37,21 @@ async function handleVerifyWce(message, username, password) {
 			}
 
 			if (response.status === 'OK') {
-				const entries = await db.query('SELECT * FROM `wce-verified` WHERE discordID = \'' + message.author.id + '\'');
 
-				if (entries.length === 0) {
+				const entries = await db.query('SELECT * FROM `wce-verified` WHERE prn = \'' + response['prn'] + '\'');
 
-					await db.query('INSERT INTO `wce-verified` (discordID,prn,name) VALUES(\'' + message.author.id + '\',\'' + response['prn'] + '\',\'' + response['name'] + '\')');
-
-					const channel = await discordClient.client.channels.fetch('861202399351668746');
-					channel.send('!verified <@' + message.author.id + '>');
-
-					message.channel.send('✅ **Verification Successful!**');
+				if (entries.length != 0) {
+					message.reply('**Dublicate Accounts Not allowed!**');
+					return;
 				}
-				else {
-					message.reply('**You are already verified!**');
-				}
+
+				await db.query('INSERT INTO `wce-verified` (discordID,prn,name) VALUES(\'' + message.author.id + '\',\'' + response['prn'] + '\',\'' + response['name'] + '\')');
+
+				const channel = await discordClient.client.channels.fetch('861202399351668746');
+				channel.send('!verified <@' + message.author.id + '>');
+
+				message.channel.send('✅ **Verification Successful!**');
+
 			}
 			else {
 				message.reply('❌ **Verification Unsuccessful!**');
