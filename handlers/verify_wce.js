@@ -1,35 +1,56 @@
-const axios = require('axios');
+let request = require('request');
+request = request.defaults({ jar: true });
+
+const JSSoup = require('jssoup').default;
+
 const discordClient = require('../discordClient.js');
 const db = require('../helpers/db.js');
 
 async function handleVerifyWce(message, username, password) {
 
-    message.reply("Your Credentials are not stored.")
-    message.reply("You can view our code here: https://github.com/Walchand-Linux-Users-Group/wlug-bot")
+	const loginUrl = 'http://112.133.242.241/moodle/login/index.php';
+	const formData = { 'username': username, 'password': password };
 
-	let response = await axios.post('https://wcemoodle-api.herokuapp.com/verify/wce', { 'username': username, 'password': password }).catch(err => console.log(err));
+	request(loginUrl, async function() {
+		request.post({ url: loginUrl, formData: formData, followAllRedirects: true }, async function(err, httpResponse, body) {
 
-	response = response.data;
+			let response;
 
-	if (response.status === 'OK') {
-		const entries = await db.query('SELECT * FROM `wce-verified` WHERE discordID = \'' + message.author.id + '\'');
+			if (err) {
+				response = { 'status': 'ERROR' };
+			}
+			else {
 
-		if (entries.length === 0) {
+				const soup = new JSSoup(body);
 
-			await db.query('INSERT INTO `wce-verified` (discordID,prn,name) VALUES(\'' + message.author.id + '\',\'' + response['prn'] + '\',\'' + response['name'] + '\')');
+				const details = soup.findAll('span', { 'class': 'usertext' })[0].text.split(' ');
+				response = {
+					'status': 'OK', 'prn': details[3], 'name': details.slice(4, details.length).join(' '),
+				};
+			}
 
-			const channel = await discordClient.client.channels.fetch('861202399351668746');
-			channel.send('!verified <@' + message.author.id + '>');
+			if (response.status === 'OK') {
+				const entries = await db.query('SELECT * FROM `wce-verified` WHERE discordID = \'' + message.author.id + '\'');
 
-			message.channel.send('✅ **Verification Successful!**');
-		}
-		else {
-			message.reply('You are already verified!');
-		}
-	}
-	else {
-		message.reply('❌ **Verification Unsuccessful!**');
-	}
+				if (entries.length === 0) {
+
+					await db.query('INSERT INTO `wce-verified` (discordID,prn,name) VALUES(\'' + message.author.id + '\',\'' + response['prn'] + '\',\'' + response['name'] + '\')');
+
+					const channel = await discordClient.client.channels.fetch('861202399351668746');
+					channel.send('!verified <@' + message.author.id + '>');
+
+					message.channel.send('✅ **Verification Successful!**');
+				}
+				else {
+					message.reply('**You are already verified!**');
+				}
+			}
+			else {
+				message.reply('❌ **Verification Unsuccessful!**');
+			}
+
+		});
+	});
 }
 
 module.exports = { handleVerifyWce };
