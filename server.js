@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const config = require('./config.json');
 const discordClient = require('./discordClient.js');
 const handler = require('./handler.js');

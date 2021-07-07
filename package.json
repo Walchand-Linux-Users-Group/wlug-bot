@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Walchand-Linux-Users-Group/wlug-bot#readme",
   "dependencies": {
     "discord.js": "^12.5.3",
+    "dotenv": "^10.0.0",
     "jssoup": "^0.0.12",
     "mysql": "^2.18.1",
     "request": "^2.88.2",
