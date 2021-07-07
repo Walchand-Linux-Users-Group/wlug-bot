@@ -43,4 +43,4 @@ discordClient.client.on('message', function(message) {
 	}
 });
 
-discordClient.client.login(config.BOT_TOKEN);
+discordClient.client.login(process.env.BOT_TOKEN);

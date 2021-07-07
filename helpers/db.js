@@ -3,10 +3,10 @@ const util = require('util');
 
 // Add variables in config
 const connection = mysql.createConnection({
-	host: 'wcewlug.org',
-	user: 'wcewlugo_discord',
-	password: '@dmin@wlug1',
-	database: 'wcewlugo_discord',
+	host: process.env.HOST,
+	user: process.env.USER,
+	password: process.env.PASSWORD,
+	database: process.env.DATABASE,
 });
 
 const q = util.promisify(connection.query).bind(connection);
