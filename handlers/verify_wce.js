@@ -58,7 +58,7 @@ async function handleVerifyWce(message, username, password) {
 				var passout = parseInt(response['prn'].slice(0, 4)) + 4;
 
 				if (parseInt(response['prn'].slice(9)) >= 200) {
-					// He/She is DSY
+					// User is DSY
 					passout = passout - 1;
 				}
 

@@ -29,6 +29,7 @@ discordClient.client.on('message', function (message) {
 					}
 					else {
 						handler.handleVerifyWce(message, args[1], args[2]);
+						message.reply("Please delete the message containing credentials!")
 					}
 					break;
 				case 'help':
@@ -38,6 +39,7 @@ discordClient.client.on('message', function (message) {
 					message.reply('Incorrect Authentication Keyword! For help send **!verify help**');
 			}
 		}
+
 		return;
 	}
 
