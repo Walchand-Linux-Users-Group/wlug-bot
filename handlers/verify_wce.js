@@ -53,11 +53,15 @@ async function handleVerifyWce(message, username, password) {
 
 				await db.query('INSERT INTO `wce-verified` (discordID,prn,name) VALUES(\'' + message.author.id + '\',\'' + response['prn'] + '\',\'' + response['name'] + '\')');
 
-
-
 				const channel = await discordClient.client.channels.fetch('861202399351668746');
-				
+
 				var passout = parseInt(response['prn'].slice(0, 4)) + 4;
+
+				if (parseInt(response['prn'].slice(9)) >= 200) {
+					// He/She is DSY
+					passout = passout - 1;
+				}
+
 				channel.send('!verified <@' + message.author.id + '> Batch-' + passout);
 
 				message.channel.send('✅ **Verification Successful!**');
