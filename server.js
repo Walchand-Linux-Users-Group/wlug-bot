@@ -9,6 +9,10 @@ discordClient.client.on('ready', () => {
 	discordClient.client.user.setActivity('WLUG Server', { type: 'WATCHING' });
 });
 
+discordClient.client.on('guildMemberAdd', (guildMember) => {
+	guildMember.roles.add(guildMember.guild.roles.cache.find(role => role.id === "860572232882978858"));
+ });
+
 discordClient.client.on('message', function (message) {
 	if (!message.content.startsWith(config.prefix)) return;
 
