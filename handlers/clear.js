@@ -13,7 +13,10 @@ function handleClear(message, number) {
     if (number < 1)
         number = 1
 
-    message.channel.bulkDelete(number);
+    try {
+        message.channel.bulkDelete(number);
+    }
+    catch (err) { }
 }
 
 module.exports = { handleClear };
