@@ -3,7 +3,9 @@ require('dotenv').config();
 const config = require('./config.json');
 const discordClient = require('./discordClient.js');
 const handler = require('./handler.js');
-const { handleVerifiedWce } = require('./handlers/verified_wce');
+
+const disbut = require('discord-buttons');
+disbut(discordClient.client);
 
 discordClient.client.on('ready', () => {
 	discordClient.client.user.setActivity('WLUG Server', { type: 'WATCHING' });
@@ -11,9 +13,9 @@ discordClient.client.on('ready', () => {
 
 discordClient.client.on('guildMemberAdd', (guildMember) => {
 	guildMember.roles.add(guildMember.guild.roles.cache.find(role => role.id === "860572232882978858"));
- });
+});
 
-discordClient.client.on('message', function (message) {
+discordClient.client.on('message', async function (message) {
 	if (!message.content.startsWith(config.prefix)) return;
 
 	const commandBody = message.content.slice(config.prefix.length);
@@ -52,7 +54,10 @@ discordClient.client.on('message', function (message) {
 
 	switch (command) {
 		case 'verified':
-			handleVerifiedWce(message, wceVerificationChannel, wceRoleID,args[1]);
+			handler.handleVerifiedWce(message, wceVerificationChannel, wceRoleID, args[1]);
+			break;
+		case 'clear':
+			handler.handleClear(message,args[0]);
 			break;
 		default:
 			message.reply('Incorrect Command');
