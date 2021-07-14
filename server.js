@@ -4,9 +4,6 @@ const config = require('./config.json');
 const discordClient = require('./discordClient.js');
 const handler = require('./handler.js');
 
-const disbut = require('discord-buttons');
-disbut(discordClient.client);
-
 discordClient.client.on('ready', () => {
 	discordClient.client.user.setActivity('WLUG Server', { type: 'WATCHING' });
 });
