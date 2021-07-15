@@ -62,7 +62,7 @@ async function handleVerifyWce(message, username, password) {
 					passout = passout - 1;
 				}
 
-				channel.send('!verified <@' + message.author.id + '> Batch-' + passout);
+				channel.send('!verified wce <@' + message.author.id + '> Batch-' + passout);
 
 				message.channel.send('✅ **Verification Successful!**');
 

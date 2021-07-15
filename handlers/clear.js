@@ -8,7 +8,7 @@ function handleClear(message, number) {
     }
 
     if (number > 100)
-        number = 101
+        number = 100
 
     if (number < 1)
         number = 1
