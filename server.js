@@ -82,4 +82,4 @@ app.get('/verify/github',async (req,res)=>{
 	res.render('github');
 });
 
-app.listen(port, () => console.log(`App listening on port ${port}!`))
+app.listen(process.env.PORT, () => console.log(`App listening on port ${port}!`))
