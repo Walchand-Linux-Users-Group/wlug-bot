@@ -73,6 +73,9 @@ discordClient.client.on('message', async function (message) {
 		case 'clear':
 			handler.handleClear(message, args[0]);
 			break;
+		case 'myid':
+			message.author.send("Your Discord ID is "+message.author.id);
+			break;
 		default:
 			message.reply('Incorrect Command');
 	}
