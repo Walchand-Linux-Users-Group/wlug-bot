@@ -29,9 +29,11 @@ app.get('/verify/github/process', async (req, res) => {
 
 	const requestToken = req.query.code
 
+	var url = "https://github.com/login/oauth/access_token?client_id=" + process.env.CLIENT_ID + "&client_secret=" + process.env.CLIENT_SECRET + "&code=" + requestToken;
+
 	axios({
 		method: 'post',
-		url: `https://github.com/login/oauth/access_token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&code=${requestToken}`,
+		url: url,
 		headers: {
 			accept: 'application/json'
 		}
