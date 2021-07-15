@@ -3,10 +3,15 @@ require('dotenv').config();
 const fetch = require('node-fetch');
 const express = require('express');
 const path = require('path');
+var cors = require('cors');
 const app = express()
 const axios = require('axios')
 const bodyParser = require('body-parser');
 
+app.use(cors());
+app.use(cors({
+	credentials: true,
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true
