@@ -3,6 +3,14 @@ require('dotenv').config();
 const config = require('./config.json');
 const discordClient = require('./discordClient.js');
 const handler = require('./handler.js');
+const path = require('path');
+
+const express = require('express')
+const app = express()
+app.set('views', './views');
+app.use('/static', express.static(path.resolve('static')));
+app.set('view engine', 'ejs');
+const port = 80
 
 discordClient.client.on('ready', () => {
 	discordClient.client.user.setActivity('WLUG Server', { type: 'WATCHING' });
@@ -54,7 +62,7 @@ discordClient.client.on('message', async function (message) {
 			handler.handleVerifiedWce(message, wceVerificationChannel, wceRoleID, args[1]);
 			break;
 		case 'clear':
-			handler.handleClear(message,args[0]);
+			handler.handleClear(message, args[0]);
 			break;
 		default:
 			message.reply('Incorrect Command');
@@ -62,3 +70,16 @@ discordClient.client.on('message', async function (message) {
 });
 
 discordClient.client.login(process.env.BOT_TOKEN);
+
+// Web Application
+
+
+app.get('/', async (req, res) => {
+	res.render('index', { page: 'Home', menuId: 'home' });
+});
+
+app.get('/verify/github',async (req,res)=>{
+	res.render('github');
+});
+
+app.listen(port, () => console.log(`App listening on port ${port}!`))
