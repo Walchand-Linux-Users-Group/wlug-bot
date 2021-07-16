@@ -56,7 +56,7 @@ discordClient.client.on('message', async function (message) {
 		case 'verified':
 			switch (args[0]) {
 				case 'wce':
-					handler.handleVerifiedWce(message, wceVerificationChannel, wceRoleID, args[1]);
+					handler.handleVerifiedWce(message, wceVerificationChannel, wceRoleID, args[2]);
 					break;
 				case 'github':
 					handler.handleVerifiedGithub(message, githubVerificationChannel, githubRoleID, args[1]);
