@@ -38,7 +38,7 @@ async function handleVerifyWce(message, username, password) {
 				try {
 					const soup = new JSSoup(body);
 
-					const details = soup.findAll('span', { 'class': 'usertext' })[0].text.split(' ');
+					const details = soup.findAll('span', { 'class': 'usertext' })[0].text;
 
 					const reName = /.\d\d\d\d[B,b,m,M][T,t][E,e]..\d\d\d\d\d./
 					const rePrn = /\d\d\d\d[B,b,m,M][T,t][E,e]..\d\d\d\d\d/
