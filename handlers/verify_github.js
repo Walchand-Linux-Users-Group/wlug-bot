@@ -2,40 +2,41 @@ const discordClient = require('../discordClient.js');
 const db = require('../helpers/db.js');
 
 async function handleVerifyGithub(message, discordID, githubID) {
-    var user;
 
-    try {
-        var user = message.mentions.members.first();
+	let user;
 
-        if (user === undefined) {
-            message.react('❌');
-            return;
-        }
-    }
-    catch (err) {
-        message.react('❌');
-        return;
-    }
+	try {
+		user = message.mentions.members.first();
 
-    let entries = await db.query('SELECT * FROM `github-verified` WHERE discordID = \'' + discordID + '\'');
+		if (user === undefined) {
+			message.react('❌');
+			return;
+		}
+	}
+	catch (err) {
+		message.react('❌');
+		return;
+	}
 
-    if (entries.length != 0) {
-        user.send('**You are already verified!**');
-        return;
-    }
+	let entries = await db.query('SELECT * FROM `github-verified` WHERE discordID = \'' + discordID + '\'');
 
-    entries = await db.query('SELECT * FROM `github-verified` WHERE githubID = \'' + githubID + '\'');
+	if (entries.length != 0) {
+		user.send('**You are already verified!**');
+		return;
+	}
 
-    if (entries.length != 0) {
-        user.send('**Dublicate Accounts Not allowed!**');
-        return;
-    }
+	entries = await db.query('SELECT * FROM `github-verified` WHERE githubID = \'' + githubID + '\'');
 
-    await db.query('INSERT INTO `github-verified` (discordID,githubID) VALUES(\'' + discordID + '\',\'' + githubID + '\')');
+	if (entries.length != 0) {
+		user.send('**Dublicate Accounts Not allowed!**');
+		return;
+	}
 
-    const channel = await discordClient.client.channels.fetch('865255050678370304');
+	await db.query('INSERT INTO `github-verified` (discordID,githubID) VALUES(\'' + discordID + '\',\'' + githubID + '\')');
 
-    channel.send('!verified github <@!' + discordID + ">");
+	const channel = await discordClient.client.channels.fetch('865255050678370304');
+
+	channel.send('!verified github <@!' + discordID + '>');
 }
 
 module.exports = { handleVerifyGithub };

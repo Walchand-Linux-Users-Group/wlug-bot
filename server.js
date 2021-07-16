@@ -9,10 +9,10 @@ discordClient.client.on('ready', () => {
 });
 
 discordClient.client.on('guildMemberAdd', (guildMember) => {
-	guildMember.roles.add(guildMember.guild.roles.cache.find(role => role.id === "860572232882978858"));
+	guildMember.roles.add(guildMember.guild.roles.cache.find(role => role.id === '860572232882978858'));
 });
 
-discordClient.client.on('message', async function (message) {
+discordClient.client.on('message', async function(message) {
 	if (!message.content.startsWith(config.prefix)) return;
 
 	const commandBody = message.content.slice(config.prefix.length);
@@ -26,20 +26,20 @@ discordClient.client.on('message', async function (message) {
 		}
 		else {
 			switch (args[0]) {
-				case 'wce':
-					if (args.length != 3) {
-						message.reply('Incorrect Command! For help send **!verify help**');
-					}
-					else {
-						handler.handleVerifyWce(message, args[1], args[2]);
-						message.reply("Please delete the message containing credentials!")
-					}
-					break;
-				case 'help':
-					handler.handleHelpVerify(message);
-					break;
-				default:
-					message.reply('Incorrect Authentication Keyword! For help send **!verify help**');
+			case 'wce':
+				if (args.length != 3) {
+					message.reply('Incorrect Command! For help send **!verify help**');
+				}
+				else {
+					handler.handleVerifyWce(message, args[1], args[2]);
+					message.reply('Please delete the message containing credentials!');
+				}
+				break;
+			case 'help':
+				handler.handleHelpVerify(message);
+				break;
+			default:
+				message.reply('Incorrect Authentication Keyword! For help send **!verify help**');
 			}
 		}
 
@@ -50,34 +50,34 @@ discordClient.client.on('message', async function (message) {
 	const wceRoleID = '858647843526279169';
 
 	const githubVerificationChannel = '865255050678370304';
-	const githubRoleID = '865188578869903380'
+	const githubRoleID = '865188578869903380';
 
 	switch (command) {
-		case 'verified':
-			switch (args[0]) {
-				case 'wce':
-					handler.handleVerifiedWce(message, wceVerificationChannel, wceRoleID, args[2]);
-					break;
-				case 'github':
-					handler.handleVerifiedGithub(message, githubVerificationChannel, githubRoleID, args[1]);
-					break;
-			}
+	case 'verified':
+		switch (args[0]) {
+		case 'wce':
+			handler.handleVerifiedWce(message, wceVerificationChannel, wceRoleID, args[2]);
 			break;
-		case 'verify':
-			switch (args[0]) {
-				case 'github':
-					handler.handleVerifyGithub(message, args[1], args[2]);
-					break;
-			}
+		case 'github':
+			handler.handleVerifiedGithub(message, githubVerificationChannel, githubRoleID);
 			break;
-		case 'clear':
-			handler.handleClear(message, args[0]);
+		}
+		break;
+	case 'verify':
+		switch (args[0]) {
+		case 'github':
+			handler.handleVerifyGithub(message, args[1], args[2]);
 			break;
-		case 'myid':
-			message.author.send("Your Discord ID is "+message.author.id);
-			break;
-		default:
-			message.reply('Incorrect Command');
+		}
+		break;
+	case 'clear':
+		handler.handleClear(message, args[0]);
+		break;
+	case 'myid':
+		message.author.send('Your Discord ID is ' + message.author.id);
+		break;
+	default:
+		message.reply('Incorrect Command');
 	}
 });
 

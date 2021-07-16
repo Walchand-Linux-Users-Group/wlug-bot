@@ -1,4 +1,4 @@
-async function handleVerifiedGithub(message, githubVerificationChannel, githubRoleID, githubID) {
+async function handleVerifiedGithub(message, githubVerificationChannel, githubRoleID) {
 	if (message.channel.id != githubVerificationChannel) {
 		message.reply('Not Allowed Here!');
 		return;

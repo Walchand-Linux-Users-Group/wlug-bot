@@ -13,5 +13,5 @@ module.exports = {
 	handleVerifiedWce,
 	handleClear,
 	handleVerifiedGithub,
-	handleVerifyGithub
+	handleVerifyGithub,
 };

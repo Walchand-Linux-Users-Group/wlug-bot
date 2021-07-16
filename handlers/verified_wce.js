@@ -13,9 +13,9 @@ async function handleVerifiedWce(message, wceVerificationChannel, wceRoleID, bat
 		await message.guild.roles.create({
 			data: {
 				name: batchRole,
-				color: "#fffff",
-				permissions: 0
-			}
+				color: '#fffff',
+				permissions: 0,
+			},
 		});
 	}
 
