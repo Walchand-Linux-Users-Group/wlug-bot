@@ -40,8 +40,14 @@ async function handleVerifyWce(message, username, password) {
 
 					const details = soup.findAll('span', { 'class': 'usertext' })[0].text.split(' ');
 
+					const reName = /.\d\d\d\d[B,b,m,M][T,t][E,e]..\d\d\d\d\d./
+					const rePrn = /\d\d\d\d[B,b,m,M][T,t][E,e]..\d\d\d\d\d/
+
+					const name = details.split(reName)[1]
+					const prn = details.match(rePrn)
+
 					response = {
-						'status': 'OK', 'prn': details[3], 'name': details.slice(4, details.length).join(' '),
+						'status': 'OK', 'prn': prn, 'name': name,
 					};
 				}
 				catch (err) {
@@ -51,16 +57,21 @@ async function handleVerifyWce(message, username, password) {
 
 			if (response.status === 'OK') {
 
-				await db.query('INSERT INTO `wce-verified` (discordID,prn,name) VALUES(\'' + message.author.id + '\',\'' + response['prn'] + '\',\'' + response['name'] + '\')');
-
-				const channel = await discordClient.client.channels.fetch('861202399351668746');
-
 				var passout = parseInt(response['prn'].slice(0, 4)) + 4;
 
 				if (parseInt(response['prn'].slice(9)) >= 200) {
 					// User is DSY
 					passout = passout - 1;
 				}
+
+				if (passout === NaN) {
+					message.author.send("Some error Occured! Please inform to Moderator!");
+					return;
+				}
+
+				await db.query('INSERT INTO `wce-verified` (discordID,prn,name) VALUES(\'' + message.author.id + '\',\'' + response['prn'] + '\',\'' + response['name'] + '\')');
+
+				const channel = await discordClient.client.channels.fetch('861202399351668746');
 
 				channel.send('!verified wce <@' + message.author.id + '> Batch-' + passout);
 
