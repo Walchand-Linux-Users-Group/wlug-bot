@@ -18,6 +18,8 @@
   "homepage": "https://github.com/Walchand-Linux-Users-Group/wlug-bot#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "discord-buttons": "^4.0.0",
+    "discord-together": "^1.1.14",
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
     "jssoup": "^0.0.12",
