@@ -79,6 +79,9 @@ discordClient.client.on('message', async function (message) {
 		case 'youtube':
 			handler.handleYoutube(message);
 			break;
+		case 'chess':
+			handler.handleChess(message);
+			break;
 		default:
 			message.reply('Incorrect Command');
 	}

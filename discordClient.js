@@ -1,4 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-module.exports = { client };
+const disbut = require("discord-buttons");
+disbut(client);
+
+module.exports = { client, disbut };

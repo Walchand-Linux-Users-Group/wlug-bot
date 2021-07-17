@@ -6,6 +6,7 @@ const { handleClear } = require('./handlers/clear.js');
 const { handleVerifiedGithub } = require('./handlers/verified_github.js');
 const { handleVerifyGithub } = require('./handlers/verify_github.js');
 const { handleYoutube } = require('./handlers/youtube.js');
+const { handleChess } = require('./handlers/chess.js');
 
 module.exports = {
 	handleVerifyWce,
@@ -16,4 +17,5 @@ module.exports = {
 	handleVerifiedGithub,
 	handleVerifyGithub,
 	handleYoutube,
+	handleChess,
 };

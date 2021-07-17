@@ -4,18 +4,18 @@ const discordClient = require('../discordClient.js');
 
 discordClient.client.discordTogether = new DiscordTogether(discordClient.client);
 
-async function handleYoutube(message) {
+async function handleChess(message) {
     if (message.member.voice.channel) {
-        discordClient.client.discordTogether.createTogetherCode(message.member.voice.channelID, 'youtube').then(async invite => {
+        discordClient.client.discordTogether.createTogetherCode(message.member.voice.channelID, 'chess').then(async invite => {
             let button = new discordClient.disbut.MessageButton()
                 .setStyle('url')
                 .setURL(`${invite.code}`)
-                .setLabel('YouTube Together');
+                .setLabel('Chess');
 
             let embedMessage = new MessageEmbed()
                 .setColor("#ffffff")
-                .setTitle('Let\'s browse YouTube!')
-                .setDescription('Connect in **' + message.member.voice.channel.name + '** and browse YouTube Together!');
+                .setTitle('Let\'s play Chess!')
+                .setDescription('Connect in **' + message.member.voice.channel.name + '** and play Chess!');
 
             return message.channel.send(embedMessage, button);
         });
@@ -30,4 +30,4 @@ async function handleYoutube(message) {
     }
 }
 
-module.exports = { handleYoutube };
+module.exports = { handleChess };
