@@ -10,6 +10,29 @@ discordClient.client.on('ready', () => {
 
 discordClient.client.on('guildMemberAdd', (guildMember) => {
 	guildMember.roles.add(guildMember.guild.roles.cache.find(role => role.id === '860572232882978858'));
+
+	const channelId = '866730816368148520'
+
+	const UpdateMembers = guild => {
+		const channel = guild.channels.cache.get(channelId)
+		channel.setName(`Linux Enthusiast: ${guild.memberCount.toLocaleString()}`)
+	}
+
+	const guild = discordClient.client.guilds.cache.get('858633411714482177');
+	UpdateMembers(guild);
+});
+
+discordClient.client.on('guildMemberRemove', (guildMember) => {
+
+	const channelId = '866730816368148520'
+
+	const UpdateMembers = guild => {
+		const channel = guild.channels.cache.get(channelId)
+		channel.setName(`Linux Enthusiast: ${guild.memberCount.toLocaleString()}`)
+	}
+
+	const guild = discordClient.client.guilds.cache.get('858633411714482177');
+	UpdateMembers(guild);
 });
 
 discordClient.client.on('message', async function (message) {
@@ -68,6 +91,11 @@ discordClient.client.on('message', async function (message) {
 				case 'github':
 					handler.handleVerifyGithub(message, args[1], args[2]);
 					break;
+				case 'wce':
+					handler.handleHelpVerify(message);
+					break;
+				default:
+					message.reply('Incorrect Command');
 			}
 			break;
 		case 'clear':
