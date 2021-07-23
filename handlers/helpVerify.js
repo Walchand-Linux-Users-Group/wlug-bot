@@ -13,7 +13,7 @@ function handleHelpVerify(message) {
 		)
 		.addField('Contribute us here:', 'https://github.com/Walchand-Linux-Users-Group/wlug-bot', false);
 
-	message.channel.send(exampleEmbed);
+	message.author.send(exampleEmbed);
 }
 
 module.exports = { handleHelpVerify };
