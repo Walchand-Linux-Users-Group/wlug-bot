@@ -2,7 +2,7 @@ const discord = require('discord.js')
 const db = require('../helpers/db.js');
 const discordClient = require('../discordClient.js');
 
-async function register(message, data, tableName) {
+async function register(user, data, tableName) {
 
     const registerEmbed = new discord.MessageEmbed()
         .setColor('#ffffff')
@@ -15,37 +15,37 @@ async function register(message, data, tableName) {
     if (entries.length === 0) {
         try {
             await db.query('INSERT INTO `' + tableName + '` (discordID,name,email,mobile,college) VALUES(\'' + data["discordID"] + '\',\'' + data["name"] + '\',\'' + data["email"] + '\',\'' + data["mobile"] + '\',\'' + data["college"] + '\')');
-            message.author.send(registerEmbed);
-            message.author.send("https://tenor.com/view/congrats-minions-gif-4115631")
+            user.send(registerEmbed);
+            user.send("https://tenor.com/view/congrats-minions-gif-4115631")
 
             const channel = await discordClient.client.channels.fetch('868869240361459793');
             channel.send('!registered linux-diary <@!' + data["discordID"] + '>');
         }
         catch (err) {
             console.log(err);
-            message.author.send("Something went Wrong!")
+            user.send("Something went Wrong!")
             return;
         }
     }
     else {
         try {
             await db.query('UPDATE `' + tableName + '` SET name=\'' + data["name"] + '\', email=\'' + data["email"] + '\', mobile=\'' + data["mobile"] + '\', college=\'' + data["college"] + '\' WHERE discordID=\'' + data["discordID"] + '\'');
-            message.author.send(registerEmbed);
-            message.author.send("https://tenor.com/view/congrats-minions-gif-4115631")
+            user.send(registerEmbed);
+            user.send("https://tenor.com/view/congrats-minions-gif-4115631")
 
             const channel = await discordClient.client.channels.fetch('868869240361459793');
             channel.send('!registered linux-diary <@!' + data["discordID"] + '>');
         }
         catch (err) {
             console.log(err);
-            message.author.send("Something went Wrong!")
+            user.send("Something went Wrong!")
             return;
         }
     }
 
 }
 
-async function registerLinuxDiary(message) {
+async function registerLinuxDiary(user) {
 
     let name = "";
     let email = "";
@@ -78,42 +78,42 @@ async function registerLinuxDiary(message) {
         .setAuthor("Walchand Linux Users' Group", "https://cdn.discordapp.com/attachments/858648730558791681/860892256461914122/discord_wlug_2.png")
         .setTitle(":school_satchel: Please send your College Name")
 
-    message.author.send(embed);
+    user.send(embed);
 
     let stage = 0;
 
-    message.author.send(nameEmbed);
+    user.send(nameEmbed);
 
-    message.author.createDM().then(dmchannel => {
-        const collector = new discord.MessageCollector(dmchannel, m => m.author.id === message.author.id, { time: 60000 });
+    user.createDM().then(dmchannel => {
+        const collector = new discord.MessageCollector(dmchannel, m => m.author.id === user.id, { time: 60000 });
         collector.on('collect', m => {
             switch (stage) {
                 case 0:
                     name = m.content;
                     stage += 1;
-                    message.author.send(emailEmbed);
+                    user.send(emailEmbed);
                     break;
                 case 1:
                     email = m.content;
                     stage += 1;
-                    message.author.send(mobileEmbed);
+                    user.send(mobileEmbed);
                     break;
                 case 2:
                     mobile = m.content;
                     stage += 1;
-                    message.author.send(collegeEmbed);
+                    user.send(collegeEmbed);
                     break;
                 case 3:
                     college = m.content;
                     stage += 1;
                     break;
                 default:
-                    message.author.send("**Warning - Overflow Detected**")
+                    user.send("**Warning - Overflow Detected**")
             }
 
             if (stage === 4) {
                 collector.stop()
-                register(message, { "discordID": message.author.id, "name": name, "email": email, "mobile": mobile, "college": college }, "linux-diary");
+                register(user, { "discordID": user.id, "name": name, "email": email, "mobile": mobile, "college": college }, "linux-diary");
                 return;
             }
         })
@@ -124,15 +124,13 @@ async function handleRegister(message, event) {
 
     switch (event) {
         case 'linux-diary':
-            let rep;
             message.channel.send("<@!" + message.author.id + "> Please  check your DMs!").then((msg) => {
-                rep = msg;
+                setTimeout(() => msg.delete(), 10000);
             })
             
-            await registerLinuxDiary(message);
+            await registerLinuxDiary(message.author);
             
-            rep.delete();
-            message.delete();
+            setTimeout(() => message.delete(), 10000);
 
             break;
         default:
