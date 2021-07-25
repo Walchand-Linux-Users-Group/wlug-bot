@@ -124,7 +124,16 @@ async function handleRegister(message, event) {
 
     switch (event) {
         case 'linux-diary':
-            registerLinuxDiary(message);
+            let rep;
+            message.channel.send("<@!" + message.author.id + "> Please  check your DMs!").then((msg) => {
+                rep = msg;
+            })
+            
+            await registerLinuxDiary(message);
+            
+            repl.delete();
+            message.delete();
+
             break;
         default:
             message.reply("Event registration ended!")
