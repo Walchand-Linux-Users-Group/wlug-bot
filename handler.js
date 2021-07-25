@@ -21,5 +21,5 @@ module.exports = {
 	handleYoutube,
 	handleChess,
 	handleRegister,
-	handleRegistered
+	handleRegistered,
 };

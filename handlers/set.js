@@ -18,35 +18,35 @@ function getUserFromMention(mention) {
 
 async function handleSetWriters(message) {
 
-    /*
+	/*
         Check if message.author has Editor Role
     */
 
-    let old_writers = await db.query('SELECT * FROM `writers`');
+	const old_writers = await db.query('SELECT * FROM `writers`');
 
-    const writerLogChannel = await discordClient.client.channels.fetch('866610534638813214');
+	const writerLogChannel = await discordClient.client.channels.fetch('866610534638813214');
 
-    old_writers.array.forEach(writer => {
-        writerLogChannel.send('!remove writer <@' + writer + '>');
-    });
+	old_writers.array.forEach(writer => {
+		writerLogChannel.send('!remove writer <@' + writer + '>');
+	});
 
-    await db.query('DELETE FROM `writers`');
+	await db.query('DELETE FROM `writers`');
 
-    
+
 }
 
 async function handleSet(message, who) {
 
-    switch (who) {
-        case 'writers':
-            handleSetWriters(message);
-            break;
-        case 'presentators':
-            handleSetPresentators(message);
-            break;
-        default:
-            message.reply("Incorrect set keyword!");
-    }
+	switch (who) {
+	case 'writers':
+		handleSetWriters(message);
+		break;
+	case 'presentators':
+		handleSetPresentators(message);
+		break;
+	default:
+		message.reply('Incorrect set keyword!');
+	}
 
 }
 
