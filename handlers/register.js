@@ -131,7 +131,7 @@ async function handleRegister(message, event) {
             
             await registerLinuxDiary(message);
             
-            repl.delete();
+            rep.delete();
             message.delete();
 
             break;
