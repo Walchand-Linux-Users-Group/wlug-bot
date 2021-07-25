@@ -110,6 +110,18 @@ discordClient.client.on('message', async function (message) {
 		case 'chess':
 			handler.handleChess(message);
 			break;
+		case 'register':
+			switch(message.channel.id){
+				case '868794257383772180':
+					handler.handleRegister(message,'linux-diary')
+					break;
+				default:
+					message.reply('Invalid Channel!');
+			}
+			break;
+		case 'registered':
+			handler.handleRegistered(message,args[0]);
+			break;
 		default:
 			message.reply('Incorrect Command');
 	}
