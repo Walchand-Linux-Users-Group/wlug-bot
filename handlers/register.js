@@ -119,7 +119,7 @@ async function registerLinuxDiary(user) {
 		});
 
 		collector.on('end', message => {
-			message.channel.send("Time Up! If Registration is incomplete please register once again!")
+			user.send("Time Up! If Registration is incomplete please register once again!")
 		});
 	});
 }
