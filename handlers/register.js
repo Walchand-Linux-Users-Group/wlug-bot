@@ -117,6 +117,10 @@ async function registerLinuxDiary(user) {
 				return;
 			}
 		});
+
+		collector.on('end', message => {
+			message.channel.send("Time Up! If Registration is incomplete please register once again!")
+		});
 	});
 }
 
