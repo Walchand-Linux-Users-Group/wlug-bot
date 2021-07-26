@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const config = require('./config.json');
 const discordClient = require('./discordClient.js');
+const discord = require('discord.js');
 const handler = require('./handler.js');
 
 discordClient.client.on('ready', () => {
@@ -21,14 +22,16 @@ discordClient.client.on('guildMemberAdd', (guildMember) => {
 	const guild = discordClient.client.guilds.cache.get('858633411714482177');
 	UpdateMembers(guild);
 
-	// const embed = new discord.MessageEmbed()
-	// 	.setColor('#ffffff')
-	// 	.setTitle('Linux Diary 2.0 Registration is Live')
-	// 	.setAuthor('Walchand Linux Users\' Group', 'https://cdn.discordapp.com/attachments/858648730558791681/860892256461914122/discord_wlug_2.png')
-	// 	.setDescription('Register here: <#868794257383772180>');
+	const embed = new discord.MessageEmbed()
+		.setColor('#ffffff')
+		.setTitle('Linux Diary 2.0 Registration is Live')
+		.setAuthor('Walchand Linux Users\' Group', 'https://cdn.discordapp.com/attachments/858648730558791681/860892256461914122/discord_wlug_2.png')
+		.setDescription('Register here: <#868794257383772180>')
+		.setImage("https://cdn.discordapp.com/attachments/858648730558791681/869123171960373308/ld-e_-14.png");
 
+	guildMember.send("Hello and welcome! We are very glad that you have decided to join **Walchand Linux Users' Group Discord Server** !");
 
-	// guildMember.guild.defaultChannel.send(embed);
+	guildMember.send(embed);
 });
 
 discordClient.client.on('guildMemberRemove', (guildMember) => {
@@ -45,7 +48,7 @@ discordClient.client.on('guildMemberRemove', (guildMember) => {
 });
 
 discordClient.client.on('message', async function (message) {
-	// return ;
+
 	if (!message.content.startsWith(config.prefix)) return;
 
 	const commandBody = message.content.slice(config.prefix.length);
