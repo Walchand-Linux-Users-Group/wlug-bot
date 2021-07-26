@@ -116,13 +116,13 @@ async function registerLinuxDiary(user) {
 				register(user, { 'discordID': user.id, 'name': name, 'email': email, 'mobile': mobile, 'college': college }, 'linux-diary');
 				return;
 			}
-		}).catch((err) => {console.log(err)});
+		});
 
 		collector.on('end', message => {
 			user.send("Time Up! If Registration is incomplete please register once again!")
-		}).catch((err) => {console.log(err)});
-		
-	}).catch((err) => {console.log(err)});
+		});
+
+	});
 }
 
 async function handleRegister(message, event) {
