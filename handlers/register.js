@@ -124,16 +124,8 @@ async function handleRegister(message, event) {
 
 	switch (event) {
 	case 'linux-diary':
-		message.channel.send('<@!' + message.author.id + '> Please  check your DMs!').then((msg) => {
-			msg.delete({ timeout: 10000 });
-		}).catch(err => console.log(err));
-
-		await registerLinuxDiary(message.author);
-
-		try {
-			message.delete({ timeout: 10000 });
-		}
-		catch (err) { console.log(err); }
+		message.channel.send('<@!' + message.author.id + '> Please  check your DMs!').catch(err => console.log(err));
+		registerLinuxDiary(message.author);
 
 		break;
 	default:
