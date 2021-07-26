@@ -8,14 +8,14 @@ const db = require('../helpers/db.js');
 
 async function handleVerifyWce(message, username, password) {
 
-	let entries = await db.query('SELECT * FROM `wce-verified` WHERE discordID = \'' + message.author.id + '\'');
+	let entries = await db.pool.query('SELECT * FROM `wce-verified` WHERE discordID = \'' + message.author.id + '\'');
 
 	if (entries.length != 0) {
 		message.reply('**You are already verified!**');
 		return;
 	}
 
-	entries = await db.query('SELECT * FROM `wce-verified` WHERE prn = \'' + username + '\'');
+	entries = await db.pool.query('SELECT * FROM `wce-verified` WHERE prn = \'' + username + '\'');
 
 	if (entries.length != 0) {
 		message.reply('**Dublicate Accounts Not allowed!**');
@@ -69,7 +69,7 @@ async function handleVerifyWce(message, username, password) {
 					return;
 				}
 
-				await db.query('INSERT INTO `wce-verified` (discordID,prn,name) VALUES(\'' + message.author.id + '\',\'' + response['prn'] + '\',\'' + response['name'] + '\')');
+				await db.pool.query('INSERT INTO `wce-verified` (discordID,prn,name) VALUES(\'' + message.author.id + '\',\'' + response['prn'] + '\',\'' + response['name'] + '\')');
 
 				const channel = await discordClient.client.channels.fetch('861202399351668746');
 

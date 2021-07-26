@@ -18,21 +18,21 @@ async function handleVerifyGithub(message, discordID, githubID) {
 		return;
 	}
 
-	let entries = await db.query('SELECT * FROM `github-verified` WHERE discordID = \'' + discordID + '\'');
+	let entries = await db.pool.query('SELECT * FROM `github-verified` WHERE discordID = \'' + discordID + '\'');
 
 	if (entries.length != 0) {
 		user.send('**You are already verified!**');
 		return;
 	}
 
-	entries = await db.query('SELECT * FROM `github-verified` WHERE githubID = \'' + githubID + '\'');
+	entries = await db.pool.query('SELECT * FROM `github-verified` WHERE githubID = \'' + githubID + '\'');
 
 	if (entries.length != 0) {
 		user.send('**Dublicate Accounts Not allowed!**');
 		return;
 	}
 
-	await db.query('INSERT INTO `github-verified` (discordID,githubID) VALUES(\'' + discordID + '\',\'' + githubID + '\')');
+	await db.pool.query('INSERT INTO `github-verified` (discordID,githubID) VALUES(\'' + discordID + '\',\'' + githubID + '\')');
 
 	const channel = await discordClient.client.channels.fetch('865255050678370304');
 

@@ -10,11 +10,11 @@ async function register(user, data, tableName) {
 		.setTitle('You have been Registered Successfully!')
 		.setDescription('You can check <#868869240361459793>');
 
-	const entries = await db.query('SELECT * FROM `' + tableName + '` WHERE discordID = \'' + data['discordID'] + '\'');
+	const entries = await db.pool.query('SELECT * FROM `' + tableName + '` WHERE discordID = \'' + data['discordID'] + '\'');
 
 	if (entries.length === 0) {
 		try {
-			await db.query('INSERT INTO `' + tableName + '` (discordID,name,email,mobile,college) VALUES(\'' + data['discordID'] + '\',\'' + data['name'] + '\',\'' + data['email'] + '\',\'' + data['mobile'] + '\',\'' + data['college'] + '\')');
+			await db.pool.query('INSERT INTO `' + tableName + '` (discordID,name,email,mobile,college) VALUES(\'' + data['discordID'] + '\',\'' + data['name'] + '\',\'' + data['email'] + '\',\'' + data['mobile'] + '\',\'' + data['college'] + '\')');
 			user.send(registerEmbed);
 			user.send('https://tenor.com/view/congrats-minions-gif-4115631');
 
@@ -29,7 +29,7 @@ async function register(user, data, tableName) {
 	}
 	else {
 		try {
-			await db.query('UPDATE `' + tableName + '` SET name=\'' + data['name'] + '\', email=\'' + data['email'] + '\', mobile=\'' + data['mobile'] + '\', college=\'' + data['college'] + '\' WHERE discordID=\'' + data['discordID'] + '\'');
+			await db.pool.query('UPDATE `' + tableName + '` SET name=\'' + data['name'] + '\', email=\'' + data['email'] + '\', mobile=\'' + data['mobile'] + '\', college=\'' + data['college'] + '\' WHERE discordID=\'' + data['discordID'] + '\'');
 			user.send(registerEmbed);
 			user.send('https://tenor.com/view/congrats-minions-gif-4115631');
 
@@ -88,27 +88,27 @@ async function registerLinuxDiary(user) {
 		const collector = new discord.MessageCollector(dmchannel, m => m.author.id === user.id, { time: 60000 });
 		collector.on('collect', m => {
 			switch (stage) {
-				case 0:
-					name = m.content;
-					stage += 1;
-					user.send(emailEmbed);
-					break;
-				case 1:
-					email = m.content;
-					stage += 1;
-					user.send(mobileEmbed);
-					break;
-				case 2:
-					mobile = m.content;
-					stage += 1;
-					user.send(collegeEmbed);
-					break;
-				case 3:
-					college = m.content;
-					stage += 1;
-					break;
-				default:
-					user.send('**Warning - Overflow Detected**');
+			case 0:
+				name = m.content;
+				stage += 1;
+				user.send(emailEmbed);
+				break;
+			case 1:
+				email = m.content;
+				stage += 1;
+				user.send(mobileEmbed);
+				break;
+			case 2:
+				mobile = m.content;
+				stage += 1;
+				user.send(collegeEmbed);
+				break;
+			case 3:
+				college = m.content;
+				stage += 1;
+				break;
+			default:
+				user.send('**Warning - Overflow Detected**');
 			}
 
 			if (stage === 4) {
@@ -120,7 +120,7 @@ async function registerLinuxDiary(user) {
 
 		collector.on('end', message => {
 			if (stage != 4) {
-				user.send("Time Up! If Registration is incomplete please register once again here: <#868794257383772180>")
+				user.send('Time Up! If Registration is incomplete please register once again here: <#868794257383772180>');
 			}
 		});
 
@@ -130,13 +130,13 @@ async function registerLinuxDiary(user) {
 async function handleRegister(message, event) {
 
 	switch (event) {
-		case 'linux-diary':
-			message.channel.send('<@!' + message.author.id + '> Please check your DMs!').catch(err => console.log(err));
-			registerLinuxDiary(message.author);
+	case 'linux-diary':
+		message.channel.send('<@!' + message.author.id + '> Please check your DMs!').catch(err => console.log(err));
+		registerLinuxDiary(message.author);
 
-			break;
-		default:
-			message.reply('Event registration ended!');
+		break;
+	default:
+		message.reply('Event registration ended!');
 	}
 }
 

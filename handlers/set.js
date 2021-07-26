@@ -22,7 +22,7 @@ async function handleSetWriters(message) {
         Check if message.author has Editor Role
     */
 
-	const old_writers = await db.query('SELECT * FROM `writers`');
+	const old_writers = await db.pool.query('SELECT * FROM `writers`');
 
 	const writerLogChannel = await discordClient.client.channels.fetch('866610534638813214');
 
@@ -30,7 +30,7 @@ async function handleSetWriters(message) {
 		writerLogChannel.send('!remove writer <@' + writer + '>');
 	});
 
-	await db.query('DELETE FROM `writers`');
+	await db.pool.query('DELETE FROM `writers`');
 
 
 }

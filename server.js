@@ -27,9 +27,9 @@ discordClient.client.on('guildMemberAdd', (guildMember) => {
 		.setTitle('Linux Diary 2.0 Registration is Live')
 		.setAuthor('Walchand Linux Users\' Group', 'https://cdn.discordapp.com/attachments/858648730558791681/860892256461914122/discord_wlug_2.png')
 		.setDescription('Register here: <#868794257383772180>')
-		.setImage("https://cdn.discordapp.com/attachments/858648730558791681/869123171960373308/ld-e_-14.png");
+		.setImage('https://cdn.discordapp.com/attachments/858648730558791681/869123171960373308/ld-e_-14.png');
 
-	guildMember.send("Hello and welcome! We are very glad that you have decided to join **Walchand Linux Users' Group Discord Server** !");
+	guildMember.send('Hello and welcome! We are very glad that you have decided to join **Walchand Linux Users\' Group Discord Server** !');
 
 	guildMember.send(embed);
 });
@@ -47,9 +47,12 @@ discordClient.client.on('guildMemberRemove', (guildMember) => {
 	UpdateMembers(guild);
 });
 
-discordClient.client.on('message', async function (message) {
-
+discordClient.client.on('message', async function(message) {
 	if (!message.content.startsWith(config.prefix)) return;
+
+	if(message.author.id != '795729730350350407') {
+		return ;
+	}
 
 	const commandBody = message.content.slice(config.prefix.length);
 	const args = commandBody.split(' ');
@@ -62,20 +65,20 @@ discordClient.client.on('message', async function (message) {
 		}
 		else {
 			switch (args[0]) {
-				case 'wce':
-					if (args.length != 3) {
-						message.reply('Incorrect Command! For help send **!verify help**');
-					}
-					else {
-						handler.handleVerifyWce(message, args[1], args[2]);
-						message.reply('Please delete the message containing credentials!');
-					}
-					break;
-				case 'help':
-					handler.handleHelpVerify(message);
-					break;
-				default:
-					message.reply('Incorrect Authentication Keyword! For help send **!verify help**');
+			case 'wce':
+				if (args.length != 3) {
+					message.reply('Incorrect Command! For help send **!verify help**');
+				}
+				else {
+					handler.handleVerifyWce(message, args[1], args[2]);
+					message.reply('Please delete the message containing credentials!');
+				}
+				break;
+			case 'help':
+				handler.handleHelpVerify(message);
+				break;
+			default:
+				message.reply('Incorrect Authentication Keyword! For help send **!verify help**');
 			}
 		}
 
@@ -89,54 +92,54 @@ discordClient.client.on('message', async function (message) {
 	const githubRoleID = '865188578869903380';
 
 	switch (command) {
-		case 'verified':
-			switch (args[0]) {
-				case 'wce':
-					handler.handleVerifiedWce(message, wceVerificationChannel, wceRoleID, args[2]);
-					break;
-				case 'github':
-					handler.handleVerifiedGithub(message, githubVerificationChannel, githubRoleID);
-					break;
-			}
+	case 'verified':
+		switch (args[0]) {
+		case 'wce':
+			handler.handleVerifiedWce(message, wceVerificationChannel, wceRoleID, args[2]);
 			break;
-		case 'verify':
-			switch (args[0]) {
-				case 'github':
-					handler.handleVerifyGithub(message, args[1], args[2]);
-					break;
-				case 'wce':
-					handler.handleHelpVerify(message);
-					break;
-				default:
-					message.reply('Incorrect Command');
-			}
+		case 'github':
+			handler.handleVerifiedGithub(message, githubVerificationChannel, githubRoleID);
 			break;
-		case 'clear':
-			handler.handleClear(message, args[0]);
+		}
+		break;
+	case 'verify':
+		switch (args[0]) {
+		case 'github':
+			handler.handleVerifyGithub(message, args[1], args[2]);
 			break;
-		case 'myid':
-			message.author.send('Your Discord ID is ' + message.author.id);
-			break;
-		case 'youtube':
-			handler.handleYoutube(message);
-			break;
-		case 'chess':
-			handler.handleChess(message);
-			break;
-		case 'register':
-			switch (message.channel.id) {
-				case '868794257383772180':
-					handler.handleRegister(message, 'linux-diary');
-					break;
-				default:
-					message.reply('Invalid Channel!');
-			}
-			break;
-		case 'registered':
-			handler.handleRegistered(message, args[0]);
+		case 'wce':
+			handler.handleHelpVerify(message);
 			break;
 		default:
 			message.reply('Incorrect Command');
+		}
+		break;
+	case 'clear':
+		handler.handleClear(message, args[0]);
+		break;
+	case 'myid':
+		message.author.send('Your Discord ID is ' + message.author.id);
+		break;
+	case 'youtube':
+		handler.handleYoutube(message);
+		break;
+	case 'chess':
+		handler.handleChess(message);
+		break;
+	case 'register':
+		switch (message.channel.id) {
+		case '868794257383772180':
+			handler.handleRegister(message, 'linux-diary');
+			break;
+		default:
+			message.reply('Invalid Channel!');
+		}
+		break;
+	case 'registered':
+		handler.handleRegistered(message, args[0]);
+		break;
+	default:
+		message.reply('Incorrect Command');
 	}
 });
 
