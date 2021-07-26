@@ -88,27 +88,27 @@ async function registerLinuxDiary(user) {
 		const collector = new discord.MessageCollector(dmchannel, m => m.author.id === user.id, { time: 60000 });
 		collector.on('collect', m => {
 			switch (stage) {
-			case 0:
-				name = m.content;
-				stage += 1;
-				user.send(emailEmbed);
-				break;
-			case 1:
-				email = m.content;
-				stage += 1;
-				user.send(mobileEmbed);
-				break;
-			case 2:
-				mobile = m.content;
-				stage += 1;
-				user.send(collegeEmbed);
-				break;
-			case 3:
-				college = m.content;
-				stage += 1;
-				break;
-			default:
-				user.send('**Warning - Overflow Detected**');
+				case 0:
+					name = m.content;
+					stage += 1;
+					user.send(emailEmbed);
+					break;
+				case 1:
+					email = m.content;
+					stage += 1;
+					user.send(mobileEmbed);
+					break;
+				case 2:
+					mobile = m.content;
+					stage += 1;
+					user.send(collegeEmbed);
+					break;
+				case 3:
+					college = m.content;
+					stage += 1;
+					break;
+				default:
+					user.send('**Warning - Overflow Detected**');
 			}
 
 			if (stage === 4) {
@@ -119,7 +119,9 @@ async function registerLinuxDiary(user) {
 		});
 
 		collector.on('end', message => {
-			user.send("Time Up! If Registration is incomplete please register once again here: <#868794257383772180>")
+			if (stage != 4) {
+				user.send("Time Up! If Registration is incomplete please register once again here: <#868794257383772180>")
+			}
 		});
 
 	});
@@ -128,13 +130,13 @@ async function registerLinuxDiary(user) {
 async function handleRegister(message, event) {
 
 	switch (event) {
-	case 'linux-diary':
-		message.channel.send('<@!' + message.author.id + '> Please check your DMs!').catch(err => console.log(err));
-		registerLinuxDiary(message.author);
+		case 'linux-diary':
+			message.channel.send('<@!' + message.author.id + '> Please check your DMs!').catch(err => console.log(err));
+			registerLinuxDiary(message.author);
 
-		break;
-	default:
-		message.reply('Event registration ended!');
+			break;
+		default:
+			message.reply('Event registration ended!');
 	}
 }
 
