@@ -85,7 +85,7 @@ async function registerLinuxDiary(user) {
 	user.send(nameEmbed);
 
 	user.createDM().then(dmchannel => {
-		const collector = new discord.MessageCollector(dmchannel, m => m.author.id === user.id, { time: 60000 });
+		const collector = new discord.MessageCollector(dmchannel, m => m.author.id === user.id, { time: 120000 });
 		collector.on('collect', m => {
 			switch (stage) {
 			case 0:
