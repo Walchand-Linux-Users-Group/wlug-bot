@@ -50,10 +50,6 @@ discordClient.client.on('guildMemberRemove', (guildMember) => {
 discordClient.client.on('message', async function (message) {
 	if (!message.content.startsWith(config.prefix)) return;
 
-	if (message.channel.id != '869672366266024007' && message.channel.id != '869672694117974058') {
-		return;
-	}
-
 	const commandBody = message.content.slice(config.prefix.length);
 	const args = commandBody.split(' ');
 	const command = args.shift().toLowerCase();
