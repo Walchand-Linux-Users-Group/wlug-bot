@@ -115,15 +115,15 @@ discordClient.client.on('message', async function (message) {
 			}
 			break;
 		case 'clear':
-			try{
+			try {
 				let count = parseInt(args[0]);
 
-				if(count===NaN){
+				if (count === NaN || args.length != 1) {
 					message.reply("Argument should be a valid number!");
 					return;
 				}
 				handler.handleClear(message, args[0]);
-			} catch(err){
+			} catch (err) {
 				message.reply("Invalid Command!");
 			}
 			break;
