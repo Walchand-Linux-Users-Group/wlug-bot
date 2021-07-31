@@ -151,6 +151,9 @@ discordClient.client.on('message', async function (message) {
 		case 'registered':
 			handler.handleRegistered(message, args[0]);
 			break;
+		case 'help':
+			handler.handleHelp(message);
+			break;
 		default:
 			message.reply('Incorrect Command');
 	}
