@@ -118,10 +118,11 @@ discordClient.client.on('message', async function (message) {
 			try {
 				let count = parseInt(args[0]);
 
-				if (count === NaN || args.length != 1) {
+				if (isNaN(count)) {
 					message.reply("Argument should be a valid number!");
 					return;
 				}
+
 				handler.handleClear(message, args[0]);
 			} catch (err) {
 				message.reply("Invalid Command!");
