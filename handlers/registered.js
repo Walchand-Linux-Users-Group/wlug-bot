@@ -11,11 +11,23 @@ async function registeredLinuxdiary(message) {
 	message.react('✅');
 }
 
+async function registeredMemberBoard(message) {
+	if (message.channel.id != '869672694117974058') {
+		message.reply('Command Not Allowed!');
+		return;
+	}
+
+	message.react('✅');
+}
+
 async function handleRegistered(message, type) {
 
 	switch (type) {
 	case 'linux-diary':
 		registeredLinuxdiary(message);
+		break;
+	case 'member-board':
+		registeredMemberBoard(message);
 		break;
 	default:
 		message.reply('Invalid Command!');

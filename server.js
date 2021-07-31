@@ -22,16 +22,16 @@ discordClient.client.on('guildMemberAdd', (guildMember) => {
 	const guild = discordClient.client.guilds.cache.get('858633411714482177');
 	UpdateMembers(guild);
 
-	const embed = new discord.MessageEmbed()
-		.setColor('#ffffff')
-		.setTitle('Linux Diary 2.0 Registration is Live')
-		.setAuthor('Walchand Linux Users\' Group', 'https://cdn.discordapp.com/attachments/858648730558791681/860892256461914122/discord_wlug_2.png')
-		.setDescription('Register here: <#868794257383772180>')
-		.setImage('https://cdn.discordapp.com/attachments/858648730558791681/869123171960373308/ld-e_-14.png');
+	// const embed = new discord.MessageEmbed()
+	// 	.setColor('#ffffff')
+	// 	.setTitle('Linux Diary 2.0 Registration is Live')
+	// 	.setAuthor('Walchand Linux Users\' Group', 'https://cdn.discordapp.com/attachments/858648730558791681/860892256461914122/discord_wlug_2.png')
+	// 	.setDescription('Register here: <#868794257383772180>')
+	// 	.setImage('https://cdn.discordapp.com/attachments/858648730558791681/869123171960373308/ld-e_-14.png');
 
-	guildMember.send('Hello and welcome! We are very glad that you have decided to join **Walchand Linux Users\' Group Discord Server** !');
+	// guildMember.send('Hello and welcome! We are very glad that you have decided to join **Walchand Linux Users\' Group Discord Server** !');
 
-	guildMember.send(embed);
+	// guildMember.send(embed);
 });
 
 discordClient.client.on('guildMemberRemove', (guildMember) => {
@@ -49,6 +49,10 @@ discordClient.client.on('guildMemberRemove', (guildMember) => {
 
 discordClient.client.on('message', async function(message) {
 	if (!message.content.startsWith(config.prefix)) return;
+
+	if(message.channel.id!='869672366266024007' && message.channel.id!='869672694117974058'){
+		return ;
+	}
 
 	const commandBody = message.content.slice(config.prefix.length);
 	const args = commandBody.split(' ');
@@ -127,6 +131,8 @@ discordClient.client.on('message', async function(message) {
 		case '868794257383772180':
 			handler.handleRegister(message, 'linux-diary');
 			break;
+		case '869672366266024007':
+			handler.handleRegister(message,'member-board');
 		default:
 			message.reply('Invalid Channel!');
 		}
