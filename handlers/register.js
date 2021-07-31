@@ -233,22 +233,22 @@ async function registerLinuxDiary(user) {
 		collector.on('collect', m => {
 			switch (stage) {
 				case 0:
-					name = m.content;
+					name = m.content.replace(/["']/g, "");
 					stage += 1;
 					user.send(emailEmbed);
 					break;
 				case 1:
-					email = m.content;
+					email = m.content.replace(/["']/g, "");
 					stage += 1;
 					user.send(mobileEmbed);
 					break;
 				case 2:
-					mobile = m.content;
+					mobile = m.content.replace(/["']/g, "");
 					stage += 1;
 					user.send(collegeEmbed);
 					break;
 				case 3:
-					college = m.content;
+					college = m.content.replace(/["']/g, "");
 					stage += 1;
 					break;
 				default:
